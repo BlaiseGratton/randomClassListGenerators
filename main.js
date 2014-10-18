@@ -1,8 +1,20 @@
 document.addEventListener('DOMContentLoaded', function(){
     var $button = document.querySelector('button');
+    var $dropdownNumbers = document.getElementById('number_dropdown');
+//    if ($dropdown === "random_n_pairing") {
+//	$dropdownNumbers.classList.remove('hidden');
+//	 console.log($dropdownNumbers.classList);
+//    }
+
+    
+
+//    var $dropdown = document.getElementById('dropdown').value;  
+//    $dropdownNumbers.addEventListener($dropdown === "random_n_pairing", function(){
+//	$dropdownNumbers.classList.remove('hidden');
+//    });
 
     $button.addEventListener('click', function(){
-	var $dropdown = document.getElementById('dropdown').value;
+	var $dropdown = document.getElementById('dropdown').value;    
 	if ($dropdown === "random_student"){
 	    var $target = document.querySelector('.target_random_student');
 	    var docFragment = printRandomStudent();
@@ -24,10 +36,29 @@ document.addEventListener('DOMContentLoaded', function(){
 	    $target.appendChild(docFragment);
 	} else
 	if ($dropdown === "random_n_pairing"){
-	    
-	}
+	    var $n_input = document.getElementById('number_dropdown').value;
+	    if ($n_input > classList.length) {
+		alert("You need to select " + (classList.length) + " students or fewer!");
+		return;
+	    }
+	    var $target = document.querySelector('.target_team_of_n');
+	    var docFragment = printRandomN();
+	    $target.appendChild(docFragment);
+	}    
     });
 });
+
+//var $button = document.querySelector('button');
+//var $dropdown = document.getElementById('dropdown').value; 
+//console.log($dropdown);   
+//var $dropdownNumbers = document.getElementById('number_dropdown');
+//if ($dropdown === "random_n_pairing") {
+//	$dropdownNumbers.classList.remove('hidden');
+//	 console.log($dropdownNumbers.classList);
+//    }
+
+
+
 
 var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
 
@@ -106,11 +137,6 @@ function printRandomlyPaired (){
     initial_splice.push(second_splice[0]);
     console.log(initial_splice);
     
-    
-
-
-
-
 // var random_index2 = (Math.round(Math.random() * (classList.length-1)));
 // console.log(random_index, random_index2);
 //    if (random_index == random_index2) {
@@ -122,12 +148,6 @@ function printRandomlyPaired (){
 //	}
 //  }   
 
-
-
-
-
-
-    
     var $li = document.createElement('li');
     var $randomlyPaired = document.createTextNode(initial_splice[0] + " & " + initial_splice[1]);
     $li.appendChild($randomlyPaired);
@@ -136,4 +156,28 @@ function printRandomlyPaired (){
     return docFragment;
 }
 
+function printRandomN ($n_input) {
+    var docFragment = document.createDocumentFragment();
 
+    var n = document.getElementById('number_dropdown').value;
+    var finalArray = [];
+    while (n > 0) {
+	var randomNumber = Math.random();
+	var random_index = (Math.round(randomNumber * (classList.length-1)));
+	var initial_splice = classList.splice([random_index], 1);
+	console.log(initial_splice);
+//	var finalArray = [];
+	finalArray.push(initial_splice[0]);
+	n = n - 1
+	console.log(finalArray);
+    }
+    var $randomN = finalArray.toString();      
+ //   $randomN = $randomN.splice(1, n);              
+    console.log($randomN);
+
+    var $li = document.createElement('li');
+    var $randomN = document.createTextNode($randomN);
+    $li.appendChild($randomN);
+    docFragment.appendChild($li);
+    return docFragment; 
+}
