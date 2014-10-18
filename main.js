@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 
-var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Scott', 'Sonda', 'Stephania'];
+var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
 
 function printRandomStudent (){
     var docFragment = document.createDocumentFragment();
@@ -97,26 +97,42 @@ function printRandomlyPaired (){
     }
     var randomNumber = Math.random();
     var random_index = (Math.round(randomNumber * (classList.length-1)));
-    var random_index2 = (Math.round(Math.random() * (classList.length-1)));
-    console.log(random_index, random_index2);
-    if (random_index === random_index2) {
-	if (random_index === 0, random_index2 === 0) {
-	    random_index = random_index + 1;
-	} else { if (random_index === 1, random_index2 === 0) {
-	    random_index = random_index - 1;
-	}
-    }
-    }
+    var initial_splice = classList.splice([random_index], 1);
+    console.log(initial_splice);
+    var randomNumber2 = Math.random();
+    var random_index2 = (Math.round(randomNumber * (classList.length-1)));
+    var second_splice = classList.splice([random_index2], 1);
+    console.log(second_splice);
+    initial_splice.push(second_splice[0]);
+    console.log(initial_splice);
+    
+    
+
+
+
+
+// var random_index2 = (Math.round(Math.random() * (classList.length-1)));
+// console.log(random_index, random_index2);
+//    if (random_index == random_index2) {
+//    if (random_index === 0, random_index2 === 0) {			   /* previous attempt at randomizing two array indeces */
+//	    random_index = random_index + 1;
+//	} else { 
+//	if (random_index === 1, random_index2 === 0) {
+//	    random_index = random_index - 1;
+//	}
+//  }   
+
+
+
+
+
+
+    
     var $li = document.createElement('li');
-    var $randomlyPaired = document.createTextNode(classList[random_index] + " & " + classList[random_index2]);
+    var $randomlyPaired = document.createTextNode(initial_splice[0] + " & " + initial_splice[1]);
     $li.appendChild($randomlyPaired);
     docFragment.appendChild($li);
-    console.log(random_index, random_index2);
-    classList.splice([random_index], 1);
-    if (random_index < random_index2) {
-	random_index2 = random_index2 - 1;
-    } 
-    classList.splice([random_index2], 1);
+    console.log(initial_splice);
     return docFragment;
 }
 
