@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded', function(){
     var $button = document.querySelector('button');
     var $dropdownNumbers = document.getElementById('number_dropdown');
+//    var $dropdownLoop = document.getElementById('dropdown').value;
+
 //    if ($dropdown === "random_n_pairing") {
 //	$dropdownNumbers.classList.remove('hidden');
 //	 console.log($dropdownNumbers.classList);
 //    }
 
-    
+    if ($dropdownLoop == "random_n_pairing") {
+	$dropdownNumbers.classList.remove('hidden');
+    } else {
+	$dropdownNumbers.classList.add('hidden');
+    }
 
 //    var $dropdown = document.getElementById('dropdown').value;  
 //    $dropdownNumbers.addEventListener($dropdown === "random_n_pairing", function(){
@@ -48,16 +54,15 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 
-//var $button = document.querySelector('button');
-//var $dropdown = document.getElementById('dropdown').value; 
-//console.log($dropdown);   
-//var $dropdownNumbers = document.getElementById('number_dropdown');
-//if ($dropdown === "random_n_pairing") {
-//	$dropdownNumbers.classList.remove('hidden');
-//	 console.log($dropdownNumbers.classList);
-//    }
+var $dropdownLoop = document.getElementById('dropdown').value;
+var $dropdownNum = document.getElementById('number_dropdown');
 
 
+if ($dropdownLoop == "random_n_pairing") {
+    $dropdownNum.classList.remove('hidden');
+} else {
+    $dropdownNum.classList.add('hidden');
+}
 
 
 var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
@@ -136,17 +141,6 @@ function printRandomlyPaired (){
     console.log(second_splice);
     initial_splice.push(second_splice[0]);
     console.log(initial_splice);
-    
-// var random_index2 = (Math.round(Math.random() * (classList.length-1)));
-// console.log(random_index, random_index2);
-//    if (random_index == random_index2) {
-//    if (random_index === 0, random_index2 === 0) {			   /* previous attempt at randomizing two array indeces */
-//	    random_index = random_index + 1;
-//	} else { 
-//	if (random_index === 1, random_index2 === 0) {
-//	    random_index = random_index - 1;
-//	}
-//  }   
 
     var $li = document.createElement('li');
     var $randomlyPaired = document.createTextNode(initial_splice[0] + " & " + initial_splice[1]);
@@ -166,13 +160,11 @@ function printRandomN ($n_input) {
 	var random_index = (Math.round(randomNumber * (classList.length-1)));
 	var initial_splice = classList.splice([random_index], 1);
 	console.log(initial_splice);
-//	var finalArray = [];
 	finalArray.push(initial_splice[0]);
 	n = n - 1
 	console.log(finalArray);
     }
     var $randomN = finalArray.toString();      
- //   $randomN = $randomN.splice(1, n);              
     console.log($randomN);
 
     var $li = document.createElement('li');
