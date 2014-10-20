@@ -2,36 +2,25 @@ document.addEventListener('DOMContentLoaded', function(){
     var $button = document.querySelector('button');
 
     $button.addEventListener('click', function(){
-	var $dropdown = document.getElementById('dropdown').value;    
+	var $target = document.querySelector('.target');
+	var $dropdown = document.getElementById('dropdown').value;  
+	var $ol = document.querySelector('.target'); 
+	$target.innerHTML = ""; 
 	if ($dropdown === "random_student"){
-	    var $target = document.querySelector('.target_random_student');
-	    var docFragment = printRandomStudent();
-	    $target.appendChild(docFragment);
-	} else 
-	if ($dropdown === "neighbor_pairing"){
-	    var $target = document.querySelector('.target_random_pair');
-	    var docFragment = printRandomPair();
-	    $target.appendChild(docFragment);
-	} else
-	if ($dropdown === "teams_of_three"){
-	    var $target = document.querySelector('.target_team_of_three');
-	    var docFragment = printTeamOfThree();
-	    $target.appendChild(docFragment);
-	} else
-	if ($dropdown === "random_pairing"){
-	    var $target = document.querySelector('.target_randomly_paired');
+	    var randomStudent = printRandomStudent();
+	} else if ($dropdown === "neighbor_pairing"){
+	    var docFragment = printConsecutivePair();
+	} else if ($dropdown === "teams_of_three"){
+	    var docFragment = printConsecutiveThree();
+	} else if ($dropdown === "random_pairing"){
 	    var docFragment = printRandomlyPaired();
-	    $target.appendChild(docFragment);
-	} else
-	if ($dropdown === "random_n_pairing"){
+	} else if ($dropdown === "random_n_pairing"){
 	    var $n_input = document.getElementById('number_dropdown').value;
 	    if ($n_input > classList.length) {
 		alert("You need to select " + (classList.length) + " students or fewer!");
 		return;
 	    }
-	    var $target = document.querySelector('.target_team_of_n');
 	    var docFragment = printRandomN();
-	    $target.appendChild(docFragment);
 	}    
     });
 });
@@ -39,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function(){
 function showDropdown () {
     var $dropdownLoop = document.getElementById('dropdown').value;
     var $dropdownNumbers = document.getElementById('number_dropdown');
-    console.log($dropdownLoop);
     if ($dropdownLoop === "random_n_pairing"){
 	$dropdownNumbers.style.visibility='visible';
 	$dropdownNumbers.classList.remove('hidden');
@@ -49,111 +37,72 @@ function showDropdown () {
     }
 } 
 
+var $ol = document.querySelector('.target'); 
+
+function addItemToList($list, itemText){
+    var $li = document.createElement("li");
+    $li.innerHTML = itemText;
+    $list.appendChild($li);
+}
+
 var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
 
 function printRandomStudent (){
-    var docFragment = document.createDocumentFragment();
-    var randomNumber = Math.random();
-    var random_index = (Math.round(randomNumber*(classList.length-1)));
-    if (classList.length === 0){
-	alert("No more students!");
-	return;
-    }
-    var $li = document.createElement('li');
-    var $randomStudent = document.createTextNode(classList[random_index]);
-    $li.appendChild($randomStudent);
-    docFragment.appendChild($li);
-    classList.splice([random_index], 1);
-    console.log(classList.length); 
- 
-    return docFragment;  
+    var clone = classList.slice(0);
+    var randomNumber = (Math.random());
+    var random_index = Math.floor(randomNumber*(clone.length));
+    var randomStudent = clone[random_index];
+    addItemToList($ol, randomStudent);
 }
 
-function printRandomPair (){
-    var docFragment = document.createDocumentFragment();
-    
-    var randomNumber = Math.random();
-    var random_index = (Math.round(randomNumber*(classList.length-2)));
-    var random_index2 = random_index+1
-    if (classList.length < 2){
-	alert("Not enough students remaining!");
-	return;
+function printConsecutivePair (){
+    var clone = classList.slice(0);
+    while (clone.length > 0) {
+	var consecutivePair = clone.splice([0], 2);
+        var $pair = consecutivePair.join(" &amp; ");
+	addItemToList($ol, $pair);
     }
-    var $li = document.createElement('li');
-    var $randomPair = document.createTextNode(classList[random_index] + " & " + classList[random_index2]);
-    $li.appendChild($randomPair);
-    docFragment.appendChild($li);
-    classList.splice([random_index], 2);
-    console.log(random_index, random_index2);
-    return docFragment;
 }
 
-function printTeamOfThree(){
-    var docFragment = document.createDocumentFragment();
-
-    var randomNumber = Math.random();
-    var random_index = (Math.round(randomNumber*(classList.length-3)));
-    var random_index2 = random_index+1;
-    var random_index3 = random_index2+1;
-    if (classList.length < 3) {
-	alert("Not enough students remaining!");
-	return;
-    } 
-    var $li = document.createElement('li');
-    var $randomTriplet = document.createTextNode(classList[random_index] + ", " + classList[random_index2] + ", & " + classList[random_index3]);
-    $li.appendChild($randomTriplet);
-    docFragment.appendChild($li);
-    console.log(random_index, random_index2, random_index3);
-    classList.splice([random_index], 3);
-    return docFragment;
+function printConsecutiveThree(){
+    var clone = classList.slice(0);
+    while (clone.length > 0) {
+	var consecutiveThree = clone.splice([0], 3);
+	var $triplet = consecutiveThree.join(", ");
+	addItemToList($ol, $triplet);
+    }
 }
 
 function printRandomlyPaired (){
-    var docFragment = document.createDocumentFragment();
-    
-    if (classList.length < 2) {
-	alert("Not enough students remaining!");
-	return;
+    var clone = classList.slice(0);
+    while (clone.length > 0) {
+	var randomNumber = Math.random();
+	var random_index = Math.floor(randomNumber * (clone.length));
+	var initial_splice = clone.splice([random_index], 1);
+	var randomNumber2 = Math.random();
+	var random_index2 = Math.floor(randomNumber * (clone.length));
+	var second_splice = clone.splice([random_index2], 1);
+	initial_splice.push(second_splice[0]);
+	var randomPair = initial_splice.join(" &amp; ");
+	addItemToList($ol, randomPair);
     }
-    var randomNumber = Math.random();
-    var random_index = (Math.round(randomNumber * (classList.length-1)));
-    var initial_splice = classList.splice([random_index], 1);
-    console.log(initial_splice);
-    var randomNumber2 = Math.random();
-    var random_index2 = (Math.round(randomNumber * (classList.length-1)));
-    var second_splice = classList.splice([random_index2], 1);
-    console.log(second_splice);
-    initial_splice.push(second_splice[0]);
-    console.log(initial_splice);
-
-    var $li = document.createElement('li');
-    var $randomlyPaired = document.createTextNode(initial_splice[0] + " & " + initial_splice[1]);
-    $li.appendChild($randomlyPaired);
-    docFragment.appendChild($li);
-    console.log(initial_splice);
-    return docFragment;
 }
 
-function printRandomN ($n_input) {
-    var docFragment = document.createDocumentFragment();
-
-    var n = document.getElementById('number_dropdown').value;
-    var finalArray = [];
-    while (n > 0) {
-	var randomNumber = Math.random();
-	var random_index = (Math.round(randomNumber * (classList.length-1)));
-	var initial_splice = classList.splice([random_index], 1);
-	console.log(initial_splice);
-	finalArray.push(initial_splice[0]);
-	n = n - 1
-	console.log(finalArray);
+function printRandomN () {
+    var clone = classList.slice(0);
+    var groupLength = document.getElementById('number_dropdown').value;
+    while (clone.length > groupLength) {
+        var finalArray = [];
+	var n = document.getElementById('number_dropdown').value;
+        while (n > 0) {
+	    var randomNumber = Math.random();
+	    var random_index = (Math.floor(randomNumber * (clone.length)));
+	    var initial_splice = clone.splice([random_index], 1);
+	    finalArray.push(initial_splice[0]);
+	    n = n - 1
+	}
+	var $randomN = finalArray.join(", ");      
+	addItemToList($ol, $randomN);
+	addItemToList($ol, clone.join(", "));
     }
-    var $randomN = finalArray.toString();      
-    console.log($randomN);
-
-    var $li = document.createElement('li');
-    var $randomN = document.createTextNode($randomN);
-    $li.appendChild($randomN);
-    docFragment.appendChild($li);
-    return docFragment; 
 }
