@@ -1,23 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
     var $button = document.querySelector('button');
-    var $dropdownNumbers = document.getElementById('number_dropdown');
-//    var $dropdownLoop = document.getElementById('dropdown').value;
-
-//    if ($dropdown === "random_n_pairing") {
-//	$dropdownNumbers.classList.remove('hidden');
-//	 console.log($dropdownNumbers.classList);
-//    }
-
-    if ($dropdownLoop == "random_n_pairing") {
-	$dropdownNumbers.classList.remove('hidden');
-    } else {
-	$dropdownNumbers.classList.add('hidden');
-    }
-
-//    var $dropdown = document.getElementById('dropdown').value;  
-//    $dropdownNumbers.addEventListener($dropdown === "random_n_pairing", function(){
-//	$dropdownNumbers.classList.remove('hidden');
-//    });
 
     $button.addEventListener('click', function(){
 	var $dropdown = document.getElementById('dropdown').value;    
@@ -54,16 +36,18 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 
-var $dropdownLoop = document.getElementById('dropdown').value;
-var $dropdownNum = document.getElementById('number_dropdown');
-
-
-if ($dropdownLoop == "random_n_pairing") {
-    $dropdownNum.classList.remove('hidden');
-} else {
-    $dropdownNum.classList.add('hidden');
-}
-
+function showDropdown () {
+    var $dropdownLoop = document.getElementById('dropdown').value;
+    var $dropdownNumbers = document.getElementById('number_dropdown');
+    console.log($dropdownLoop);
+    if ($dropdownLoop === "random_n_pairing"){
+	$dropdownNumbers.style.visibility='visible';
+	$dropdownNumbers.classList.remove('hidden');
+    } else {
+	$dropdownNumbers.style.visibility='hidden';
+	$dropdownNumbers.classList.add('hidden');
+    }
+} 
 
 var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
 
