@@ -1,27 +1,40 @@
+function getJSON(url, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.onload = function(){
+    cb(JSON.parse(xhr.responseText));
+  };
+  xhr.send();
+}
+
+var classList;
+
 document.addEventListener('DOMContentLoaded', function(){
     var $button = document.querySelector('button');
-
+    getJSON('https://volunteerism-blaise.firebaseio.com/students.json', function(data){
+      classList = data;
+    });
     $button.addEventListener('click', function(){
-	var $target = document.querySelector('.target');
-	var $dropdown = document.getElementById('dropdown').value;  
-	var $ol = document.querySelector('.target'); 
-	$target.innerHTML = ""; 
-	if ($dropdown === "random_student"){
-	    var randomStudent = printRandomStudent();
-	} else if ($dropdown === "neighbor_pairing"){
-	    var docFragment = printConsecutivePair();
-	} else if ($dropdown === "teams_of_three"){
-	    var docFragment = printConsecutiveThree();
-	} else if ($dropdown === "random_pairing"){
-	    var docFragment = printRandomlyPaired();
-	} else if ($dropdown === "random_n_pairing"){
-	    var $n_input = document.getElementById('number_dropdown').value;
-	    if ($n_input > classList.length) {
-		alert("You need to select " + (classList.length) + " students or fewer!");
-		return;
-	    }
-	    var docFragment = printRandomN();
-	}    
+	  var $target = document.querySelector('.target');
+	  var $dropdown = document.getElementById('dropdown').value;  
+	  var $ol = document.querySelector('.target'); 
+	  $target.innerHTML = ""; 
+	  if ($dropdown === "random_student"){
+	      var randomStudent = printRandomStudent();
+	  } else if ($dropdown === "neighbor_pairing"){
+	      var docFragment = printConsecutivePair();
+	  } else if ($dropdown === "teams_of_three"){
+	      var docFragment = printConsecutiveThree();
+	  } else if ($dropdown === "random_pairing"){
+	      var docFragment = printRandomlyPaired();
+	  } else if ($dropdown === "random_n_pairing"){
+	      var $n_input = document.getElementById('number_dropdown').value;
+	      if ($n_input > classList.length) {
+	      	alert("You need to select " + (classList.length) + " students or fewer!");
+		      return;
+	      }
+	      var docFragment = printRandomN();
+	      }    
     });
 });
 
@@ -43,7 +56,7 @@ function addItemToList($list, itemText){
     $list.appendChild($li);
 }
 
-var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
+//var classList = ['Adam', 'Alex', 'Blaise', 'Brandon', 'Charisse', 'Colby', 'David', 'Evan', 'Gerald', 'Greg', 'Jackie', 'Jessica', 'Spencer', 'Kimberly', 'Kris', 'Leon', 'Luke', 'Rebecca', 'Seif', 'Steve', 'Sonda', 'Stephania'];
 
 function printRandomStudent (){
     var clone = classList.slice(0);
@@ -116,8 +129,8 @@ function printRandomN () {
 	var $remainder = commaString.join(", ") + finalIndex;
     } else if (clone.length === 2) {
     	var $remainder = clone[0] + " & " + clone[1];
-    } else if (finalArray.length === 1) {
-	var $remainder = finalArray[0];
+    } else if (clone.length === 1) {
+	var $remainder = clone[0];
     }
     addItemToList($ol, $remainder);
 }
