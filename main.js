@@ -29,10 +29,8 @@ function showDropdown () {
     var $dropdownLoop = document.getElementById('dropdown').value;
     var $dropdownNumbers = document.getElementById('number_dropdown');
     if ($dropdownLoop === "random_n_pairing"){
-	$dropdownNumbers.style.visibility='visible';
 	$dropdownNumbers.classList.remove('hidden');
     } else {
-	$dropdownNumbers.style.visibility='hidden';
 	$dropdownNumbers.classList.add('hidden');
     }
 } 
@@ -99,10 +97,27 @@ function printRandomN () {
 	    var random_index = (Math.floor(randomNumber * (clone.length)));
 	    var initial_splice = clone.splice([random_index], 1);
 	    finalArray.push(initial_splice[0]);
-	    n = n - 1
+	    n--;
 	}
-	var $randomN = finalArray.join(", ");      
+	if (finalArray.length > 1) {
+            var commaString = finalArray.splice(0, finalArray.length-1);
+	    var finalIndex = " & " + finalArray[0];
+	    var $randomN = commaString.join(", ") + finalIndex;
+	} else if (finalArray.length === 2) { 
+	    var $randomN = finalArray[0] + " & " + finalArray[1];
+	} else if (finalArray.length === 1) {
+	    var $randomN = finalArray[0];
+	}   
 	addItemToList($ol, $randomN);
-	addItemToList($ol, clone.join(", "));
     }
+    if (clone.length > 1) {
+	var commaString = clone.splice(0, clone.length-1);
+	var finalIndex = " & " + clone[0];
+	var $remainder = commaString.join(", ") + finalIndex;
+    } else if (clone.length === 2) {
+    	var $remainder = clone[0] + " & " + clone[1];
+    } else if (finalArray.length === 1) {
+	var $remainder = finalArray[0];
+    }
+    addItemToList($ol, $remainder);
 }
